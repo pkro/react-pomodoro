@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import useInterval from './useInterval';
+import useInterval from 'use-interval';
 import TimerDisplay from './TimerDisplay';
 import MinuteSetter from './MinuteSetter';
 import ActivitySelect from './ActivitySelect';
@@ -16,22 +16,23 @@ const Pomodoro = () => {
   const [workTime, setWorkTime] = useState(25);
   const [pauseTime, setPauseTime] = useState(5);
   const [activities, setActivities] = useState([]);
+  const [countDown, setCountDown] = useState(0);
+  const [timerRunning, setTimerRunning] = useState(false);
   const [activity, setActivity] = useState({
     id: 0,
     name: 'Updating...',
   });
-  const [delay, setDelay] = useState(1000);
 
   const changeWorkTime = e => {
-    const minutes = e.target.value;
-    setWorkTime(parseInt(minutes, 10));
-    setTimer({ secondsLeft: minutes * 60 });
+    const minutes = parseInt(e.target.value, 10);
+    setWorkTime(minutes);
+    setTimer({ mode: WORK, secondsLeft: minutes * 60 });
   };
 
   const changePauseTime = e => {
-    const minutes = e.target.value;
-    setPauseTime(parseInt(minutes, 10));
-    setTimer({ secondsLeft: minutes * 60 });
+    const minutes = parseInt(e.target.value, 10);
+    setPauseTime(minutes);
+    setTimer({ mode: PAUSE, secondsLeft: minutes * 60 });
   };
 
   const changeCurrentActivity = e => {
@@ -46,13 +47,17 @@ const Pomodoro = () => {
     setActivities([...activities, { id: newId, name: newActivity }]);
   };
 
-  const toggleTimerMode = () => {
-    // useInterval(null, null);
+  useInterval(
+    () => {
+      if (timer.secondsLeft > 0) {
+        setTimer({ secondsLeft: timer.secondsLeft - 1 });
+      }
+    },
+    timerRunning ? 1000 : null
+  );
 
-    setTimer({
-      secondsLeft: timer.mode === WORK ? workTime : pauseTime,
-      mode: timer.mode === WORK ? PAUSE : WORK,
-    });
+  const toggleTimer = () => {
+    setTimerRunning(!timerRunning);
   };
 
   useEffect(() => {
@@ -74,26 +79,13 @@ const Pomodoro = () => {
         name: 'Typescript',
       },
     ]);
-    setActivity({ id: 1, name: 'French' });
   }, []);
 
-  /* Why doesnt this work?
   useEffect(() => {
-    setActivity({ id: 1, name: activities.filter(obj => obj.id === 1)[0].name });
-  }, [activities]); */
-
-  useInterval(() => {
-    if (timer.secondsLeft > 0) {
-      setTimer({ secondsLeft: timer.secondsLeft - 1 });
-    } else {
-      setDelay(null);
+    if (activities.length > 0) {
+      setActivity({ id: 1, name: activities.filter(obj => obj.id === 1)[0].name });
     }
-  }, delay);
-  /*
-    useEffect(() => {
-      setActivity({ id: activity.id, name: activity.name })
-    }, []);
-  */
+  }, [activities]);
 
   return (
     <div>
@@ -108,10 +100,7 @@ const Pomodoro = () => {
         <MinuteSetter minutes={workTime} onChange={changeWorkTime} />
         Set pause time:
         <MinuteSetter minutes={pauseTime} onChange={changePauseTime} />
-        <ToggleButton
-          onClick={toggleTimerMode}
-          buttonText={timer.mode === WORK ? 'Pause' : 'Start'}
-        />
+        <ToggleButton onClick={toggleTimer} buttonText={timerRunning ? 'Pause' : 'Start'} />
       </div>
       <div className="activityControls">
         Add activity:
