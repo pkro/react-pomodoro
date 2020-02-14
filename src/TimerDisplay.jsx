@@ -1,16 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { seconds2display } from './utils';
 
 export default function TimerDisplay({ timeLeft }) {
-  const minutes = Math.round(timeLeft / 60);
-  const seconds = (timeLeft % 60).toString().padStart(2, '0');
-  return (
-    <div>
-      {minutes}:{seconds}
-    </div>
-  );
+  const displayTime = seconds2display(timeLeft);
+  return <div>{displayTime}</div>;
 }
 
 TimerDisplay.propTypes = {
-  timeLeft: PropTypes.string.isRequired,
+  timeLeft: PropTypes.number.isRequired,
 };
