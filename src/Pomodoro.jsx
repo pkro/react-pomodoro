@@ -16,8 +16,8 @@ const Pomodoro = () => {
   const [workTime, setWorkTime] = useState(25);
   const [pauseTime, setPauseTime] = useState(5);
   const [activities, setActivities] = useState([]);
-  const [countDown, setCountDown] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
+  const [log, setLog] = useState({ runner: 1, activities: [] });
   const [activity, setActivity] = useState({
     id: 0,
     name: 'Updating...',
@@ -47,6 +47,13 @@ const Pomodoro = () => {
     setActivities([...activities, { id: newId, name: newActivity }]);
   };
 
+  const logActivity = (id, timeSpent) => {
+    setLog({
+      runner: log.runner + 1,
+      activities: [...log.activities, { key: log.runner, id, timeSpent }],
+    });
+  };
+
   useInterval(
     () => {
       if (timer.secondsLeft > 0) {
@@ -57,6 +64,9 @@ const Pomodoro = () => {
   );
 
   const toggleTimer = () => {
+    if (timerRunning) {
+      logActivity(activity.id, workTime * 60 - timer.secondsLeft);
+    }
     setTimerRunning(!timerRunning);
   };
 
@@ -107,6 +117,26 @@ const Pomodoro = () => {
         <AddActivity onChange={addActivity} />
         Select activity:
         <ActivitySelect activities={activities} onChange={changeCurrentActivity} />
+      </div>
+      <div className="log">
+        <table>
+          <thead>
+            <tr>
+              <td>ID</td>
+              <td>Time spent</td>
+            </tr>
+          </thead>
+          <tbody>
+            {log.activities.map(obj => {
+              return (
+                <tr key={obj.key}>
+                  <td>{obj.id}</td>
+                  <td>{obj.timeSpent}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     </div>
   );
