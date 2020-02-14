@@ -4,78 +4,114 @@ import TimerDisplay from './TimerDisplay';
 import MinuteSetter from './MinuteSetter';
 import ActivitySelect from './ActivitySelect';
 import AddActivity from './AddActivity';
+import ToggleButton from './ToggleButton';
+
+import { PAUSE, WORK } from './constants';
 
 const Pomodoro = () => {
-  const [timeLeft, setTimeLeft] = useState(25 * 60);
+  const [timer, setTimer] = useState({
+    secondsLeft: 25 * 60,
+    mode: WORK,
+  });
   const [workTime, setWorkTime] = useState(25);
   const [pauseTime, setPauseTime] = useState(5);
   const [activities, setActivities] = useState([]);
-  const [activity, setActivity] = useState(1);
-  /* 
-    const changeWorkTime = useCallback(() => {
-      setWorkTime(minutes);
-    }, [minutes]);
-   */
+  const [activity, setActivity] = useState({
+    id: 0,
+    name: 'Updating...',
+  });
+  const [delay, setDelay] = useState(1000);
+
   const changeWorkTime = e => {
     const minutes = e.target.value;
     setWorkTime(parseInt(minutes, 10));
-    setTimeLeft(minutes * 60);
+    setTimer({ secondsLeft: minutes * 60 });
   };
 
   const changePauseTime = e => {
     const minutes = e.target.value;
     setPauseTime(parseInt(minutes, 10));
-    setTimeLeft(minutes * 60);
+    setTimer({ secondsLeft: minutes * 60 });
   };
 
   const changeCurrentActivity = e => {
-    const currentActivity = e.target.value;
-    setActivity(currentActivity);
+    const id = parseInt(e.target.value, 10);
+    const { name } = activities.filter(obj => obj.id === id)[0];
+
+    setActivity({ id, name });
   };
 
   const addActivity = newActivity => {
     const newId = Math.max(...activities.map(obj => obj.id)) + 1;
-    setActivities([...activities, { id: newId, activity: newActivity }]);
+    setActivities([...activities, { id: newId, name: newActivity }]);
+  };
+
+  const toggleTimerMode = () => {
+    // useInterval(null, null);
+
+    setTimer({
+      secondsLeft: timer.mode === WORK ? workTime : pauseTime,
+      mode: timer.mode === WORK ? PAUSE : WORK,
+    });
   };
 
   useEffect(() => {
     setActivities([
       {
         id: 1,
-        activity: 'French',
+        name: 'French',
       },
       {
         id: 2,
-        activity: 'Spanish',
+        name: 'Spanish',
       },
       {
         id: 3,
-        activity: 'Javascript',
+        name: 'Javascript',
       },
       {
         id: 4,
-        activity: 'Typescript',
+        name: 'Typescript',
       },
     ]);
+    setActivity({ id: 1, name: 'French' });
   }, []);
 
+  /* Why doesnt this work?
+  useEffect(() => {
+    setActivity({ id: 1, name: activities.filter(obj => obj.id === 1)[0].name });
+  }, [activities]); */
+
   useInterval(() => {
-    setTimeLeft(timeLeft - 1);
-  }, 1000);
-  const currentActivity = activities.filter(obj => obj.id === activity)[0];
+    if (timer.secondsLeft > 0) {
+      setTimer({ secondsLeft: timer.secondsLeft - 1 });
+    } else {
+      setDelay(null);
+    }
+  }, delay);
+  /*
+    useEffect(() => {
+      setActivity({ id: activity.id, name: activity.name })
+    }, []);
+  */
+
   return (
     <div>
       <h1>Pomodoro</h1>
       <h3>
         You are learning:
-        {currentActivity ? currentActivity.activity : 'please wait'}
+        {activity.name}
       </h3>
-      <TimerDisplay timeLeft={timeLeft} />
+      <TimerDisplay timeLeft={timer.secondsLeft} />
       <div className="timerControls">
         Set work time:
         <MinuteSetter minutes={workTime} onChange={changeWorkTime} />
         Set pause time:
         <MinuteSetter minutes={pauseTime} onChange={changePauseTime} />
+        <ToggleButton
+          onClick={toggleTimerMode}
+          buttonText={timer.mode === WORK ? 'Pause' : 'Start'}
+        />
       </div>
       <div className="activityControls">
         Add activity:
