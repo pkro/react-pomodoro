@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import useInterval from 'use-interval';
-import TimerDisplay from './TimerDisplay';
+import TimeDisplay from './TimeDisplay';
 import MinuteSetter from './MinuteSetter';
 import ActivitySelect from './ActivitySelect';
 import AddActivity from './AddActivity';
@@ -104,7 +104,7 @@ const Pomodoro = () => {
         You are learning:
         {activity.name}
       </h3>
-      <TimerDisplay timeLeft={timer.secondsLeft} />
+      <TimeDisplay seconds={timer.secondsLeft} />
       <div className="timerControls">
         Set work time:
         <MinuteSetter minutes={workTime} onChange={changeWorkTime} />
@@ -131,7 +131,9 @@ const Pomodoro = () => {
               return (
                 <tr key={obj.key}>
                   <td>{obj.id}</td>
-                  <td>{obj.timeSpent}</td>
+                  <td>
+                    <TimeDisplay seconds={obj.timeSpent} />
+                  </td>
                 </tr>
               );
             })}
