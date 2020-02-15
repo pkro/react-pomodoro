@@ -4,7 +4,6 @@ import TimeDisplay from './TimeDisplay';
 import MinuteSetter from './MinuteSetter';
 import ActivitySelect from './ActivitySelect';
 import AddActivity from './AddActivity';
-import ToggleButton from './ToggleButton';
 
 import { PAUSE, WORK, DEFAULT_WORK, DEFAULT_PAUSE } from './constants';
 
@@ -22,10 +21,8 @@ const Pomodoro = () => {
     name: 'Updating...',
   });
 
-
-
   const changeTime = e => {
-    const id = e.target.getAttribute("id");
+    const id = e.target.getAttribute('id');
     console.log(id);
     let newTime;
     let callFunc;
@@ -40,6 +37,13 @@ const Pomodoro = () => {
     if (newTime > 0 && newTime <= 60) {
       callFunc(newTime);
     }
+  };
+
+  const resetTimer = () => {
+    setWorkTime(DEFAULT_WORK);
+    setPauseTime(DEFAULT_PAUSE);
+    setTimer(DEFAULT_WORK * 60);
+    setTimerRunning(false);
   };
 
   const changeCurrentActivity = e => {
@@ -67,7 +71,6 @@ const Pomodoro = () => {
         setTimer(timer - 1);
       } else {
         setMode(mode === WORK ? PAUSE : WORK);
-
       }
     },
     timerRunning ? 1000 : null
@@ -110,11 +113,12 @@ const Pomodoro = () => {
   return (
     <div>
       <h1>Pomodoro</h1>
-      <h3>
-        {mode === WORK && <>You are learning:        {activity.name}</>}
+      <h3 id="timer-label">
+        {mode === WORK && <>
+          You are learning:{activity.name}</>}
         {mode === PAUSE && <>Pausing...</>}
       </h3>
-      <TimeDisplay seconds={timer} />
+      <TimeDisplay seconds={timer} id="time-left" />
       <div className="timerControls">
         <div id="session-label">Set work time:</div>
         <MinuteSetter
@@ -137,11 +141,12 @@ const Pomodoro = () => {
             minus: 'break-decrement',
           }}
         />
-        <ToggleButton
-          onClick={toggleTimer}
-          buttonText={timerRunning ? 'Pause' : 'Start'}
-          id="start_stop"
-        />
+        <button type="button" onClick={toggleTimer} id="start_stop">
+          {timerRunning ? 'Pause' : 'Start'}
+        </button>
+        <button type="button" onClick={resetTimer} id="reset">
+          Reset
+        </button>
       </div>
       <div className="activityControls">
         Add activity:
