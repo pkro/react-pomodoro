@@ -6,33 +6,40 @@ import ActivitySelect from './ActivitySelect';
 import AddActivity from './AddActivity';
 import ToggleButton from './ToggleButton';
 
-import { PAUSE, WORK } from './constants';
+import { PAUSE, WORK, DEFAULT_WORK, DEFAULT_PAUSE } from './constants';
 
 const Pomodoro = () => {
-  const [timer, setTimer] = useState({
-    secondsLeft: 25 * 60,
-    mode: WORK,
-  });
-  const [workTime, setWorkTime] = useState(25);
-  const [pauseTime, setPauseTime] = useState(5);
+  const [workTime, setWorkTime] = useState(DEFAULT_WORK);
+  const [pauseTime, setPauseTime] = useState(DEFAULT_PAUSE);
   const [activities, setActivities] = useState([]);
   const [timerRunning, setTimerRunning] = useState(false);
   const [log, setLog] = useState({ runner: 1, activities: [] });
+  const [timer, setTimer] = useState(DEFAULT_WORK * 60);
+  const [mode, setMode] = useState(WORK);
+
   const [activity, setActivity] = useState({
     id: 0,
     name: 'Updating...',
   });
 
-  const changeWorkTime = e => {
-    const minutes = parseInt(e.target.value, 10);
-    setWorkTime(minutes);
-    setTimer({ mode: WORK, secondsLeft: minutes * 60 });
-  };
 
-  const changePauseTime = e => {
-    const minutes = parseInt(e.target.value, 10);
-    setPauseTime(minutes);
-    setTimer({ mode: PAUSE, secondsLeft: minutes * 60 });
+
+  const changeTime = e => {
+    const id = e.target.getAttribute("id");
+    console.log(id);
+    let newTime;
+    let callFunc;
+    if (id.indexOf('session') !== -1) {
+      newTime = workTime;
+      callFunc = setWorkTime;
+    } else {
+      newTime = pauseTime;
+      callFunc = setPauseTime;
+    }
+    newTime = id.indexOf('increment') !== -1 ? newTime + 1 : newTime - 1;
+    if (newTime > 0 && newTime <= 60) {
+      callFunc(newTime);
+    }
   };
 
   const changeCurrentActivity = e => {
@@ -56,8 +63,11 @@ const Pomodoro = () => {
 
   useInterval(
     () => {
-      if (timer.secondsLeft > 0) {
-        setTimer({ secondsLeft: timer.secondsLeft - 1 });
+      if (timer > 0) {
+        setTimer(timer - 1);
+      } else {
+        setMode(mode === WORK ? PAUSE : WORK);
+
       }
     },
     timerRunning ? 1000 : null
@@ -65,7 +75,7 @@ const Pomodoro = () => {
 
   const toggleTimer = () => {
     if (timerRunning) {
-      logActivity(activity.id, workTime * 60 - timer.secondsLeft);
+      logActivity(activity.id, workTime * 60 - timer);
     }
     setTimerRunning(!timerRunning);
   };
@@ -101,16 +111,37 @@ const Pomodoro = () => {
     <div>
       <h1>Pomodoro</h1>
       <h3>
-        You are learning:
-        {activity.name}
+        {mode === WORK && <>You are learning:        {activity.name}</>}
+        {mode === PAUSE && <>Pausing...</>}
       </h3>
-      <TimeDisplay seconds={timer.secondsLeft} />
+      <TimeDisplay seconds={timer} />
       <div className="timerControls">
-        Set work time:
-        <MinuteSetter minutes={workTime} onChange={changeWorkTime} />
-        Set pause time:
-        <MinuteSetter minutes={pauseTime} onChange={changePauseTime} />
-        <ToggleButton onClick={toggleTimer} buttonText={timerRunning ? 'Pause' : 'Start'} />
+        <div id="session-label">Set work time:</div>
+        <MinuteSetter
+          minutes={workTime}
+          onChange={changeTime}
+          ids={{
+            display: 'session-length',
+            plus: 'session-increment',
+            minus: 'session-decrement',
+          }}
+        />
+        <div id="break-label">Set pause time:</div>
+        <MinuteSetter
+          minutes={pauseTime}
+          onChange={changeTime}
+          controlFor="PAUSE"
+          ids={{
+            display: 'break-length',
+            plus: 'break-increment',
+            minus: 'break-decrement',
+          }}
+        />
+        <ToggleButton
+          onClick={toggleTimer}
+          buttonText={timerRunning ? 'Pause' : 'Start'}
+          id="start_stop"
+        />
       </div>
       <div className="activityControls">
         Add activity:
