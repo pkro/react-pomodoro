@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { seconds2display } from './utils';
 
-export default function TimeDisplay({ seconds }) {
+export default function TimeDisplay({ seconds, id = 'time-display' }) {
+  function seconds2display(numSeconds) {
+    const minutes = Math.floor(numSeconds / 60).toString().padStart(2, '0');
+    const newSeconds = (numSeconds % 60).toString().padStart(2, '0');
+    return `${minutes}:${newSeconds}`;
+  }
+
   const displayTime = seconds2display(seconds);
-  return <div>{displayTime}</div>;
+  return <div id={id}>{displayTime}</div>;
 }
 
 TimeDisplay.propTypes = {
