@@ -54,8 +54,10 @@ const Pomodoro = () => {
   };
 
   const addActivity = newActivity => {
-    const newId = Math.max(...activities.map(obj => obj.id)) + 1;
-    setActivities([...activities, { id: newId, name: newActivity }]);
+    if (activities.find(e => e.name === newActivity) === undefined) {
+      const newId = Math.max(...activities.map(obj => obj.id)) + 1;
+      setActivities([...activities, { id: newId, name: newActivity }]);
+    }
   };
 
   const logActivity = (id, timeSpent) => {
