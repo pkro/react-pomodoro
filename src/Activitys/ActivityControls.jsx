@@ -11,6 +11,27 @@ export default function ActivityControls({ workTimeNotify }) {
     name: 'Updating...',
   });
 
+  const changeCurrentActivity = e => {
+    const id = parseInt(e.target.value, 10);
+    const { name } = activities.filter(obj => obj.id === id)[0];
+
+    setActivity({ id, name });
+  };
+
+  const addActivity = newActivity => {
+    if (activities.find(e => e.name === newActivity) === undefined) {
+      const newId = Math.max(...activities.map(obj => obj.id)) + 1;
+      setActivities([...activities, { id: newId, name: newActivity }]);
+    }
+  };
+
+  const logActivity = (id, timeSpent) => {
+    setLog({
+      runner: log.runner + 1,
+      activities: [...log.activities, { key: log.runner, id, timeSpent }],
+    });
+  };
+
   useEffect(() => {
     setActivities([
       {
@@ -42,26 +63,7 @@ export default function ActivityControls({ workTimeNotify }) {
     logActivity(activity.id, workTimeNotify);
   }, [workTimeNotify]);
 
-  const changeCurrentActivity = e => {
-    const id = parseInt(e.target.value, 10);
-    const { name } = activities.filter(obj => obj.id === id)[0];
 
-    setActivity({ id, name });
-  };
-
-  const addActivity = newActivity => {
-    if (activities.find(e => e.name === newActivity) === undefined) {
-      const newId = Math.max(...activities.map(obj => obj.id)) + 1;
-      setActivities([...activities, { id: newId, name: newActivity }]);
-    }
-  };
-
-  const logActivity = (id, timeSpent) => {
-    setLog({
-      runner: log.runner + 1,
-      activities: [...log.activities, { key: log.runner, id, timeSpent }],
-    });
-  };
 
   return (
     <div className="activityControls">
