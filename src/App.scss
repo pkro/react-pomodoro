@@ -7,8 +7,6 @@ $bodyColor: #E38E48;
   @if $debug == 1 {
     border: 1px solid $color;
   }
-  
-  
 }
 
 body {
@@ -25,8 +23,6 @@ button {
   flex-direction: column;
   text-align: center;
   width:450px;
-  
-  
 }
 
 .timerControls {
