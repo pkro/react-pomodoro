@@ -1,5 +1,5 @@
 import React from 'react';
-import TimeDisplay from './TimeDisplay';
+import TimeDisplay from '../TimeDisplay';
 
 export default function activityLog({ log }) {
   return (
