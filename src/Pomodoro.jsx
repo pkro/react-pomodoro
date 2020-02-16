@@ -4,8 +4,9 @@ import TimeDisplay from './TimeDisplay';
 import MinuteSetter from './MinuteSetter';
 import ActivitySelect from './ActivitySelect';
 import AddActivity from './AddActivity';
+import ActivityLog from './ActivityLog';
 
-import { PAUSE, WORK, DEFAULT_WORK, DEFAULT_PAUSE } from './constants';
+import { PAUSE, WORK, DEFAULT_WORK, DEFAULT_PAUSE, ONESECONDINMILISECONDS } from './constants';
 
 const Pomodoro = () => {
   const [workTime, setWorkTime] = useState(DEFAULT_WORK);
@@ -23,7 +24,6 @@ const Pomodoro = () => {
 
   const changeTime = e => {
     const id = e.target.getAttribute('id');
-    console.log(id);
     let newTime;
     let callFunc;
     if (id.indexOf('session') !== -1) {
@@ -65,15 +65,17 @@ const Pomodoro = () => {
     });
   };
 
+
   useInterval(
     () => {
       if (timer > 0) {
         setTimer(timer - 1);
       } else {
         setMode(mode === WORK ? PAUSE : WORK);
+        setTimer(mode === WORK ? pauseTime : workTime);
       }
     },
-    timerRunning ? 1000 : null
+    timerRunning ? ONESECONDINMILISECONDS : null
   );
 
   const toggleTimer = () => {
@@ -111,16 +113,15 @@ const Pomodoro = () => {
   }, [activities]);
 
   return (
-    <div>
+    <div id="pomodoro">
       <h1>Pomodoro</h1>
       <h3 id="timer-label">
         {mode === WORK && <>
-          You are learning:{activity.name}</>}
+          You are learning: {activity.name}</>}
         {mode === PAUSE && <>Pausing...</>}
       </h3>
       <TimeDisplay seconds={timer} id="time-left" />
       <div className="timerControls">
-        <div id="session-label">Set work time:</div>
         <MinuteSetter
           minutes={workTime}
           onChange={changeTime}
@@ -129,8 +130,9 @@ const Pomodoro = () => {
             plus: 'session-increment',
             minus: 'session-decrement',
           }}
+          title={<div id="session-label">Set work time:</div>}
         />
-        <div id="break-label">Set pause time:</div>
+
         <MinuteSetter
           minutes={pauseTime}
           onChange={changeTime}
@@ -140,6 +142,7 @@ const Pomodoro = () => {
             plus: 'break-increment',
             minus: 'break-decrement',
           }}
+          title={<div id="break-label">Break time:</div>}
         />
         <button type="button" onClick={toggleTimer} id="start_stop">
           {timerRunning ? 'Pause' : 'Start'}
@@ -154,28 +157,7 @@ const Pomodoro = () => {
         Select activity:
         <ActivitySelect activities={activities} onChange={changeCurrentActivity} />
       </div>
-      <div className="log">
-        <table>
-          <thead>
-            <tr>
-              <td>ID</td>
-              <td>Time spent</td>
-            </tr>
-          </thead>
-          <tbody>
-            {log.activities.map(obj => {
-              return (
-                <tr key={obj.key}>
-                  <td>{obj.id}</td>
-                  <td>
-                    <TimeDisplay seconds={obj.timeSpent} />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      <ActivityLog log={log} />
     </div>
   );
 };
