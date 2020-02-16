@@ -1,0 +1,66 @@
+$debug: 1;
+$minuteSetterFontColor: #E3AF48;
+$minuteSetterButtonColor: #D41C1C;
+$bodyColor: #E38E48;
+
+@mixin showBorder($color) {
+  @if $debug == 1 {
+    border: 1px solid $color;
+  }
+  
+  
+}
+
+body {
+  background-color: $bodyColor;
+}
+
+button {
+  cursor: pointer;
+}
+
+#pomodoro {
+  @include showBorder(black);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  
+  
+}
+
+.timerControls {
+  @include showBorder(green);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+
+.minuteSetter {
+  @include showBorder(blue);
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  background-color: #E34848;
+}
+
+.minuteDisplay {
+  font-size:2rem;
+  text-align: center;
+  color: $minuteSetterFontColor;
+}
+
+.minuteSetterButtons {
+  display: flex;
+  flex-direction: row;
+  button {
+    width: 100%;
+    font-weight: bold;
+    font-size: 1.4rem;
+    background-color: $minuteSetterButtonColor;
+    border: none;
+    &:first-child {
+      border-right: 1px solid black;
+    }
+  }  
+}

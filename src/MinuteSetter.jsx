@@ -4,7 +4,7 @@ import TimeDisplay from './TimeDisplay';
 export default function MinuteSetter({
   minutes,
   onChange,
-  controlFor,
+  title = "Minutes:",
   ids = {
     display: 'timeDisplay',
     plus: 'time-increment',
@@ -12,14 +12,19 @@ export default function MinuteSetter({
   },
 }) {
   return (
-    <>
-      <div id={ids.display}>{minutes}</div>
-      <button type="button" onClick={onChange} id={ids.minus}>
-        -
-      </button>
-      <button type="button" onClick={onChange} id={ids.plus}>
-        +
-      </button>
-    </>
+    <div className="minuteSetter">
+      {title}
+      <div className="minuteDisplay" id={ids.display}>
+        {minutes}
+      </div>
+      <div className="minuteSetterButtons">
+        <button type="button" onClick={onChange} id={ids.minus}>
+          -
+        </button>
+        <button type="button" onClick={onChange} id={ids.plus}>
+          +
+        </button>
+      </div>
+    </div>
   );
 }
