@@ -88,15 +88,17 @@ const Pomodoro = () => {
           }}
           title={<div id="break-label">Break time:</div>}
         />
-        <button type="button" onClick={toggleTimer} id="start_stop">
-          {timerRunning ? 'Pause' : 'Start'}
-        </button>
-        <button type="button" onClick={resetTimer} id="reset">
-          Reset
-        </button>
       </div>
+      <button type="button" onClick={toggleTimer} id="start_stop">
+        {timerRunning ? 'Pause' : 'Start'}
+      </button>
+      <button type="button" onClick={resetTimer} id="reset">
+        Reset
+        </button>
       <ActivityControls workTimeNotify={workTimeNotify} />
     </div>
+
+
   );
 };
 

@@ -67,11 +67,10 @@ export default function ActivityControls({ workTimeNotify }) {
 
   return (
     <div className="activityControls">
-      Add activity:
-      <AddActivity onChange={addActivity} />
-      Select activity:
       <ActivitySelect activities={activities} onChange={changeCurrentActivity} />
+      <AddActivity onChange={addActivity} />
       <ActivityLog log={log} />
     </div>
+
   );
 }

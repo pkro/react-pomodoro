@@ -1,4 +1,4 @@
-$debug: 1;
+$debug: 0;
 $minuteSetterFontColor: #E3AF48;
 $minuteSetterButtonColor: #D41C1C;
 $bodyColor: #E38E48;
@@ -28,7 +28,7 @@ button {
 .timerControls {
   @include showBorder(green);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   text-align: center;
 }
 
@@ -39,8 +39,32 @@ button {
   flex-direction: column;
   width: 180px;
   background-color: #E34848;
+  flex: 0 0 50%;
 }
 
+#start_stop {
+  box-shadow:inset 0px 1px 0px 0px #f7c5c0;
+	background-color:#AF0B0B;
+	border-radius:6px;
+	border:1px solid #d83526;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:22px;
+	font-weight:bold;
+	padding:16px 76px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #b23e35;
+  &:hover {
+    background:linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
+    background-color:#e4685d;
+  }
+  &:active {
+    position:relative;
+    top:1px;
+  }
+}
 .minuteDisplay {
   font-size:2rem;
   text-align: center;

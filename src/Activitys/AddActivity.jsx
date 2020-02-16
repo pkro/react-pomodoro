@@ -13,9 +13,9 @@ export default function AddActivity({ onChange }) {
   }
 
   return (
-    <>
+    <div className="addActivity">
       <input type="text" id="newActivity" value={activity} onChange={handleChange} />
-      <button onClick={submitChange}>Add</button>
-    </>
+      <button type="button" onClick={submitChange}>Add</button>
+    </div>
   );
 }
