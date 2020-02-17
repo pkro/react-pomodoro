@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useInterval from 'use-interval';
 import TimeDisplay from './TimeDisplay';
 import MinuteSetter from './MinuteSetter';
-import ActivityControls from './Activitys/ActivityControls';
+import ActivityControls from './Activitys/ActivityPanel';
 
 import { PAUSE, WORK, DEFAULT_WORK, DEFAULT_PAUSE, ONESECONDINMILISECONDS } from './constants';
 
@@ -29,6 +29,7 @@ const Pomodoro = () => {
     if (newTime > 0 && newTime <= 60) {
       callFunc(newTime);
     }
+    setTimer(newTime * 60);
   };
 
   const resetTimer = () => {
@@ -94,7 +95,7 @@ const Pomodoro = () => {
       </button>
       <button type="button" onClick={resetTimer} id="reset">
         Reset
-        </button>
+      </button>
       <ActivityControls workTimeNotify={workTimeNotify} />
     </div>
 

@@ -83,5 +83,15 @@ button {
     &:first-child {
       border-right: 1px solid black;
     }
-  }  
+  }
+}
+
+#activityPanel {
+  display: flex;
+  flex-direction: column;
+}
+
+#activityControls {
+  display: flex;
+  justify-content: space-evenly; 
 }
