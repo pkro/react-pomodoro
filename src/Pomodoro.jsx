@@ -61,17 +61,22 @@ const Pomodoro = () => {
       setWorkTimeNotify(workTime * 60 - timer);
     }
     setTimerRunning(!timerRunning);
+
   };
 
   return (
     <div id="pomodoro">
       <h1>Pomodoro</h1>
       <h3 id="timer-label">
-        {mode === WORK && <>Working!</>}
-        {mode === PAUSE && <>Pausing...</>}
+        {mode === WORK && timerRunning && 'Working!'}
+        {mode === PAUSE && timerRunning && 'Break time'}
+        {!timerRunning && 'Press start'}
       </h3>
-      <TimeDisplay seconds={timer} id="time-left" />
+
+      <TimeDisplay seconds={timer} />
+
       <div className="timerControls">
+
         <MinuteSetter
           minutes={workTime}
           onChange={changeTime}
@@ -102,7 +107,7 @@ const Pomodoro = () => {
         Reset
       </button>
       <ActivityControls workTimeNotify={workTimeNotify} />
-    </div>
+    </div >
   );
 };
 
