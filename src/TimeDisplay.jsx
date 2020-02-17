@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function TimeDisplay({ seconds, id = 'time-display' }) {
+TimeDisplay.defaultProps = {
+  id: 'time-left',
+}
+
+export default function TimeDisplay({ seconds, id }) {
   function seconds2display(numSeconds) {
     const minutes = Math.floor(numSeconds / 60).toString().padStart(2, '0');
     const newSeconds = (numSeconds % 60).toString().padStart(2, '0');
@@ -14,5 +18,5 @@ export default function TimeDisplay({ seconds, id = 'time-display' }) {
 
 TimeDisplay.propTypes = {
   seconds: PropTypes.number.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
 };
