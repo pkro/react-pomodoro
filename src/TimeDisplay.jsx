@@ -14,4 +14,5 @@ export default function TimeDisplay({ seconds, id = 'time-display' }) {
 
 TimeDisplay.propTypes = {
   seconds: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
 };
