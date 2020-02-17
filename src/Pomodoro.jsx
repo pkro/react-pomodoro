@@ -43,9 +43,14 @@ const Pomodoro = () => {
     () => {
       if (timer > 0) {
         setTimer(timer - 1);
+      } else if (mode === WORK) {
+        setTimer(pauseTime * 60);
+        setTimerRunning(true);
+        setMode(PAUSE);
       } else {
-        setMode(mode === WORK ? PAUSE : WORK);
-        setTimer(mode === WORK ? pauseTime : workTime);
+        setTimer(workTime * 60);
+        setTimerRunning(true);
+        setMode(WORK);
       }
     },
     timerRunning ? ONESECONDINMILISECONDS : null
@@ -98,8 +103,6 @@ const Pomodoro = () => {
       </button>
       <ActivityControls workTimeNotify={workTimeNotify} />
     </div>
-
-
   );
 };
 
