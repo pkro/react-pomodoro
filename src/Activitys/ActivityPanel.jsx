@@ -25,10 +25,10 @@ export default function ActivityPanel({ workTimeNotify }) {
     }
   };
 
-  const logActivity = (id, timeSpent) => {
+  const logActivity = (name, timeSpent) => {
     setLog({
       runner: log.runner + 1,
-      activities: [...log.activities, { key: log.runner, id, timeSpent }],
+      activities: [...log.activities, { key: log.runner, name, timeSpent }],
     });
   };
 
@@ -60,7 +60,7 @@ export default function ActivityPanel({ workTimeNotify }) {
   }, [activities]);
 
   useEffect(() => {
-    logActivity(activity.id, workTimeNotify);
+    logActivity(activity.name, workTimeNotify);
   }, [workTimeNotify]);
 
 

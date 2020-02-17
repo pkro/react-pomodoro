@@ -23,7 +23,7 @@ export default function ActivityLog({ log }) {
             {log.activities.map(obj => {
               return (
                 <TableRow key={obj.key}>
-                  <TableCell>{obj.id}</TableCell>
+                  <TableCell>{obj.name}</TableCell>
                   <TableCell>
                     <TimeDisplay seconds={obj.timeSpent} />
                   </TableCell>
