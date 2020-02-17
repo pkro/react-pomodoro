@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 
 export default function ActivityLog({ log }) {
   return (
-    <div className="activityLog">
+    <div id="activityLog">
       <TableContainer component={Paper}>
         <Table size="small" aria-label="a dense table">
           <TableHead>

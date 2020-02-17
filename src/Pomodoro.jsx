@@ -66,15 +66,22 @@ const Pomodoro = () => {
 
   return (
     <div id="pomodoro">
-      <h1>Pomodoro</h1>
-      <h3 id="timer-label">
+      <div id="head">
+        <h1>Pomodoro</h1>
+        <button type="button" onClick={resetTimer} id="reset">
+          Reset
+      </button>
+      </div>
+
+
+      <h4 id="timer-label">
         {mode === WORK && timerRunning && 'Working!'}
         {mode === PAUSE && timerRunning && 'Break time'}
         {!timerRunning && 'Press start'}
-      </h3>
-
-      <TimeDisplay seconds={timer} />
-
+      </h4>
+      <div id="timerHolder">
+        <TimeDisplay seconds={timer} id="time-left" />
+      </div>
       <div className="timerControls">
 
         <MinuteSetter
@@ -103,9 +110,7 @@ const Pomodoro = () => {
       <button type="button" onClick={toggleTimer} id="start_stop">
         {timerRunning ? 'Pause' : 'Start'}
       </button>
-      <button type="button" onClick={resetTimer} id="reset">
-        Reset
-      </button>
+
       <ActivityControls workTimeNotify={workTimeNotify} />
     </div >
   );

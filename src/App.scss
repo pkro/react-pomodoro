@@ -1,8 +1,8 @@
 $debug: 0;
 $minuteSetterFontColor: white;
 $minuteSetterButtonColor: white;
-$bodyColor: #ffffff;
-$pomodoroColor: #eeeeee;
+$bodyColor: #f9f9f9;
+$pomodoroColor: #f9f9f9;
 
 @mixin showBorder($color) {
   @if $debug == 1 {
@@ -27,6 +27,8 @@ button {
   width: 450px;
   background-color: $pomodoroColor;
   margin-left: 400px;
+  border: 1px solid #eeeeee;
+  box-shadow: 2px 2px 4px rgba(163, 177, 198, 0.6), -2px -2px 4px rgba(255, 255, 255, 0.5);
 }
 
 .timerControls {
@@ -41,16 +43,16 @@ button {
   display: flex;
   flex-direction: column;
   width: 180px;
-  background-color: #e34848;
+  background-color: rgb(65, 134, 65);
   flex: 0 0 50%;
   color: $minuteSetterFontColor;
 }
 
 #start_stop {
-  background-color: #af0b0b;
+  background-color: #c93c3c;
   border-radius: 6px;
   cursor: pointer;
-  color: #ffffff;
+  color: white;
   font-size: 22px;
   font-weight: bold;
   padding: 16px 76px;
@@ -62,16 +64,59 @@ button {
     position: relative;
     top: 1px;
   }
+  margin-top: 8px;
 }
+
+#head {
+  diplay: flex;
+  flex-direction: row;
+}
+#reset {
+  background-color: #c93c3c;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 8px 24px;
+  &:hover {
+    background: linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
+    background-color: #e4685d;
+  }
+  &:active {
+    position: relative;
+    top: 1px;
+  }
+}
+
 .minuteDisplay {
   font-size: 2rem;
   text-align: center;
   color: $minuteSetterFontColor;
 }
-
+#time-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  background-color: white;
+  width: 140px;
+  font-weight: bold;
+  height: 140px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  box-shadow: 6px 6px 8px rgba(163, 177, 198, 0.6), -6px -6px 8px rgba(255, 255, 255, 0.5);
+}
+#timerHolder {
+  display: flex;
+  justify-content: center;
+}
 .minuteSetterButtons {
   display: flex;
   flex-direction: row;
+  &:first-child {
+    border-right: 1px solid black;
+  }
   button {
     width: 100%;
     font-weight: bold;
@@ -87,9 +132,14 @@ button {
 #activityPanel {
   display: flex;
   flex-direction: column;
+  margin-top: 10px;
 }
 
 #activityControls {
   display: flex;
   justify-content: space-evenly;
+}
+
+#activityLog {
+  margin-top: 10px;
 }
