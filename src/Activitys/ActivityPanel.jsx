@@ -3,7 +3,7 @@ import ActivityLog from './ActivityLog';
 import ActivitySelect from './ActivitySelect';
 import AddActivity from './AddActivity';
 
-export default function ActivityControls({ workTimeNotify }) {
+export default function ActivityPanel({ workTimeNotify }) {
   const [log, setLog] = useState({ runner: 1, activities: [] });
   const [activities, setActivities] = useState([]);
   const [activity, setActivity] = useState({
@@ -66,9 +66,11 @@ export default function ActivityControls({ workTimeNotify }) {
 
 
   return (
-    <div className="activityControls">
-      <ActivitySelect activities={activities} onChange={changeCurrentActivity} />
-      <AddActivity onChange={addActivity} />
+    <div id="activityPanel">
+      <div id="activityControls">
+        <ActivitySelect activities={activities} onChange={changeCurrentActivity} />
+        <AddActivity onChange={addActivity} />
+      </div>
       <ActivityLog log={log} />
     </div>
 
