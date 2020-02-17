@@ -13,8 +13,10 @@ export default function MinuteSetter({
 }) {
   return (
     <div className="minuteSetter">
-      {title}
-      <div className="minuteDisplay" id={ids.display}>
+      <div style={{ borderBottom: "1px solid", marginTop: "2%" }}>
+        {title}
+      </div>
+      <div className="minuteDisplay" id={ids.display} style={{ marginTop: "2%", marginBottom: "2%" }}>
         {minutes}
       </div>
       <div className="minuteSetterButtons">
@@ -25,6 +27,6 @@ export default function MinuteSetter({
           +
         </button>
       </div>
-    </div>
+    </div >
   );
 }

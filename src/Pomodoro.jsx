@@ -80,7 +80,7 @@ const Pomodoro = () => {
             plus: 'session-increment',
             minus: 'session-decrement',
           }}
-          title={<div id="session-label">Set work time:</div>}
+          title={<div id="session-label">Work time</div>}
         />
 
         <MinuteSetter
@@ -92,7 +92,7 @@ const Pomodoro = () => {
             plus: 'break-increment',
             minus: 'break-decrement',
           }}
-          title={<div id="break-label">Break time:</div>}
+          title={<div id="break-label">Break time</div>}
         />
       </div>
       <button type="button" onClick={toggleTimer} id="start_stop">
