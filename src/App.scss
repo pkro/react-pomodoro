@@ -42,8 +42,7 @@ button {
   @include showBorder(blue);
   display: flex;
   flex-direction: column;
-  width: 180px;
-  background-color: rgb(65, 134, 65);
+  background-color: rgb(115, 177, 115);
   flex: 0 0 50%;
   color: $minuteSetterFontColor;
 }
@@ -68,8 +67,10 @@ button {
 }
 
 #head {
-  diplay: flex;
-  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  background-color: #eeeeee;
+  align-items: center;
 }
 #reset {
   background-color: #c93c3c;
@@ -77,8 +78,9 @@ button {
   cursor: pointer;
   color: white;
   font-size: 12px;
+  height: 36px;
   font-weight: bold;
-  padding: 8px 24px;
+  padding: 4px 16px;
   &:hover {
     background: linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
     background-color: #e4685d;
@@ -90,7 +92,7 @@ button {
 }
 
 .minuteDisplay {
-  font-size: 2rem;
+  font-size: 1.2rem;
   text-align: center;
   color: $minuteSetterFontColor;
 }
