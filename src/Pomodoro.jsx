@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import useInterval from 'use-interval';
-import TimeDisplay from './TimeDisplay';
+import TimeDisplay, { seconds2display } from './TimeDisplay';
 import MinuteSetter from './MinuteSetter';
 import ActivityControls from './Activitys/ActivityPanel';
 
@@ -43,7 +43,9 @@ const Pomodoro = () => {
     () => {
       if (timer > 0) {
         setTimer(timer - 1);
+        document.title = `${mode === WORK ? 'Work' : 'Pause'} ${seconds2display(timer)}`;
       } else if (mode === WORK) {
+        setWorkTimeNotify(25 * 60 * 60 - timer);
         setTimer(pauseTime * 60);
         setTimerRunning(true);
         setMode(PAUSE);
@@ -57,11 +59,7 @@ const Pomodoro = () => {
   );
 
   const toggleTimer = () => {
-    if (timerRunning) {
-      setWorkTimeNotify(workTime * 60 - timer);
-    }
     setTimerRunning(!timerRunning);
-
   };
 
   return (
@@ -70,7 +68,7 @@ const Pomodoro = () => {
         <h1>Pomodoro</h1>
         <button type="button" onClick={resetTimer} id="reset">
           Reset
-      </button>
+          </button>
       </div>
 
 
@@ -83,7 +81,6 @@ const Pomodoro = () => {
         <TimeDisplay seconds={timer} id="time-left" />
       </div>
       <div className="timerControls">
-
         <MinuteSetter
           minutes={workTime}
           onChange={changeTime}
@@ -112,7 +109,7 @@ const Pomodoro = () => {
       </button>
 
       <ActivityControls workTimeNotify={workTimeNotify} />
-    </div >
+    </div>
   );
 };
 
