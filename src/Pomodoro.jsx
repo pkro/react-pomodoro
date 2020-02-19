@@ -14,6 +14,8 @@ const Pomodoro = () => {
   const [mode, setMode] = useState(WORK);
   const [workTimeNotify, setWorkTimeNotify] = useState(0);
 
+  let playPromise;
+
   const changeTime = e => {
     const id = e.target.getAttribute('id');
     let newTime;
@@ -37,6 +39,15 @@ const Pomodoro = () => {
     setPauseTime(DEFAULT_PAUSE);
     setTimer(DEFAULT_WORK * 60);
     setTimerRunning(false);
+    const beep = document.getElementById('beep');
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        beep.pause();
+        beep.currentTime = 0;
+        beep.src = '';
+      });
+    }
+
   };
 
   useInterval(
@@ -46,15 +57,16 @@ const Pomodoro = () => {
         document.title = `${mode === WORK ? 'Work' : 'Pause'} ${seconds2display(timer)}`;
       } else if (mode === WORK) {
         const beep = document.getElementById('beep');
-        beep.play();
+        beep.src = 'pausecompleted.wav';
+        playPromise = beep.play();
         setWorkTimeNotify(25 * 60 * 60 - timer);
         setTimer(pauseTime * 60);
         setTimerRunning(true);
         setMode(PAUSE);
       } else {
         const beep = document.getElementById('beep');
-        beep.src = 'pausecompleted.wav';
-        beep.play();
+        beep.src = 'completed.wav';
+        playPromise = beep.play();
         setTimer(workTime * 60);
         setTimerRunning(true);
         setMode(WORK);
