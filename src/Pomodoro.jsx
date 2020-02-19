@@ -45,11 +45,16 @@ const Pomodoro = () => {
         setTimer(timer - 1);
         document.title = `${mode === WORK ? 'Work' : 'Pause'} ${seconds2display(timer)}`;
       } else if (mode === WORK) {
+        const beep = document.getElementById('beep');
+        beep.play();
         setWorkTimeNotify(25 * 60 * 60 - timer);
         setTimer(pauseTime * 60);
         setTimerRunning(true);
         setMode(PAUSE);
       } else {
+        const beep = document.getElementById('beep');
+        beep.src = 'pausecompleted.wav';
+        beep.play();
         setTimer(workTime * 60);
         setTimerRunning(true);
         setMode(WORK);
@@ -70,7 +75,6 @@ const Pomodoro = () => {
           Reset
           </button>
       </div>
-
 
       <h4 id="timer-label">
         {mode === WORK && timerRunning && 'Working!'}
@@ -109,6 +113,8 @@ const Pomodoro = () => {
       </button>
 
       <ActivityControls workTimeNotify={workTimeNotify} />
+
+      <audio src="completed.wav" id="beep" preload="auto"></audio>
     </div>
   );
 };
