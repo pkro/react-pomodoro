@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ActivityLog from './ActivityLog';
-import ActivitySelect from './ActivitySelect';
-import AddActivity from './AddActivity';
 
 export default function ActivityPanel({ workTimeNotify }) {
   const [log, setLog] = useState({ runner: 1, activities: [] });
   const [activities, setActivities] = useState([]);
+  const [activityText, setActivityText] = useState([]);
   const [activity, setActivity] = useState({
     id: 0,
     name: 'Updating...',
@@ -18,11 +17,16 @@ export default function ActivityPanel({ workTimeNotify }) {
     setActivity({ id, name });
   };
 
-  const addActivity = newActivity => {
-    if (activities.find(e => e.name === newActivity) === undefined) {
+  const handleChange = e => {
+    setActivityText(e.target.value);
+  }
+
+  const addActivity = () => {
+    if (activities.find(e => e.name === activityText) === undefined && activityText.length > 0) {
       const newId = Math.max(...activities.map(obj => obj.id)) + 1;
-      setActivities([...activities, { id: newId, name: newActivity }]);
+      setActivities([...activities, { id: newId, name: activityText }]);
     }
+    setActivityText('');
   };
 
   const logActivity = (name, timeSpent) => {
@@ -68,8 +72,20 @@ export default function ActivityPanel({ workTimeNotify }) {
   return (
     <div id="activityPanel">
       <div id="activityControls">
-        <ActivitySelect activities={activities} onChange={changeCurrentActivity} />
-        <AddActivity onChange={addActivity} />
+        <div className="custom-select">
+          <select onChange={changeCurrentActivity}>
+            {activities.map(obj => (
+              <option value={obj.id} key={obj.id}>
+                {obj.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="addActivity">
+          <input type="text" id="newActivity" value={activityText} onChange={handleChange} />
+          <button type="button" onClick={addActivity}>Add</button>
+        </div>
       </div>
       <ActivityLog log={log} />
     </div>
