@@ -12,10 +12,7 @@ const Pomodoro = () => {
   const [timerRunning, setTimerRunning] = useState(false);
   const [timer, setTimer] = useState(DEFAULT_WORK * 60);
   const [mode, setMode] = useState(WORK);
-
-  // make these 2 one object to avoid multiple updates in log
-  const [workTimeNotify, setWorkTimeNotify] = useState(true);
-  const [workTimeToLog, setWorkTimeToLog] = useState(0);
+  const [logNotifier, setLogNotifier] = useState({ notification: true, timeSpent: 0 });
 
   let playPromise;
 
@@ -24,7 +21,7 @@ const Pomodoro = () => {
     const isWorkSession = id.indexOf('session') !== -1;
     const isIncrement = id.indexOf('increment') !== -1;
 
-    const newTime = isWorkSession ? workTime : pauseTime;
+    let newTime = isWorkSession ? workTime : pauseTime;
     const callFunc = isWorkSession ? setWorkTime : setPauseTime;
 
     newTime = isIncrement ? newTime + 1 : newTime - 1;
@@ -59,8 +56,7 @@ const Pomodoro = () => {
         const beep = document.getElementById('beep');
         beep.src = 'pausecompleted.wav';
         playPromise = beep.play();
-        setWorkTimeNotify(!workTimeNotify);
-        setWorkTimeToLog(workTime * 60 - timer)
+        setLogNotifier({ notification: !logNotifier.notification, timeSpent: workTime * 60 - timer });
         setTimer(pauseTime * 60);
         setTimerRunning(true);
         setMode(PAUSE);
@@ -125,7 +121,7 @@ const Pomodoro = () => {
         {timerRunning ? 'Pause' : 'Start'}
       </button>
 
-      <ActivityControls workTimeNotify={workTimeNotify} workTimeToLog={workTimeToLog} />
+      <ActivityControls logNotifier={logNotifier} />
 
       <audio src="completed.wav" id="beep" preload="auto"></audio>
     </div>
