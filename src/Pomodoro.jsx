@@ -21,16 +21,13 @@ const Pomodoro = () => {
 
   const changeTime = e => {
     const id = e.target.getAttribute('id');
-    let newTime;
-    let callFunc;
-    if (id.indexOf('session') !== -1) {
-      newTime = workTime;
-      callFunc = setWorkTime;
-    } else {
-      newTime = pauseTime;
-      callFunc = setPauseTime;
-    }
-    newTime = id.indexOf('increment') !== -1 ? newTime + 1 : newTime - 1;
+    const isWorkSession = id.indexOf('session') !== -1;
+    const isIncrement = id.indexOf('increment') !== -1;
+
+    const newTime = isWorkSession ? workTime : pauseTime;
+    const callFunc = isWorkSession ? setWorkTime : setPauseTime;
+
+    newTime = isIncrement ? newTime + 1 : newTime - 1;
     if (newTime > 0 && newTime <= 60) {
       callFunc(newTime);
     }
