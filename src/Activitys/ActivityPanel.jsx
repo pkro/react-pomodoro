@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ActivityLog from './ActivityLog';
 
-export default function ActivityPanel({ workTimeNotify }) {
+export default function ActivityPanel({ workTimeNotify, workTimeToLog }) {
   const [log, setLog] = useState({ runner: 1, activities: [] });
   const [activities, setActivities] = useState([]);
   const [activityText, setActivityText] = useState([]);
@@ -64,10 +64,8 @@ export default function ActivityPanel({ workTimeNotify }) {
   }, [activities]);
 
   useEffect(() => {
-    logActivity(activity.name, workTimeNotify);
-  }, [workTimeNotify]);
-
-
+    logActivity(activity.name, workTimeToLog);
+  }, [workTimeNotify, workTimeToLog]);
 
   return (
     <div id="activityPanel">

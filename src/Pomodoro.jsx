@@ -12,7 +12,8 @@ const Pomodoro = () => {
   const [timerRunning, setTimerRunning] = useState(false);
   const [timer, setTimer] = useState(DEFAULT_WORK * 60);
   const [mode, setMode] = useState(WORK);
-  const [workTimeNotify, setWorkTimeNotify] = useState(0);
+  const [workTimeNotify, setWorkTimeNotify] = useState(true);
+  const [workTimeToLog, setWorkTimeToLog] = useState(0);
 
   let playPromise;
 
@@ -59,7 +60,8 @@ const Pomodoro = () => {
         const beep = document.getElementById('beep');
         beep.src = 'pausecompleted.wav';
         playPromise = beep.play();
-        setWorkTimeNotify(25 * 60 * 60 - timer);
+        setWorkTimeNotify(!workTimeNotify);
+        setWorkTimeToLog(workTime * 60 - timer)
         setTimer(pauseTime * 60);
         setTimerRunning(true);
         setMode(PAUSE);
@@ -124,7 +126,7 @@ const Pomodoro = () => {
         {timerRunning ? 'Pause' : 'Start'}
       </button>
 
-      <ActivityControls workTimeNotify={workTimeNotify} />
+      <ActivityControls workTimeNotify={workTimeNotify} workTimeToLog={workTimeToLog} />
 
       <audio src="completed.wav" id="beep" preload="auto"></audio>
     </div>
