@@ -12,6 +12,8 @@ const Pomodoro = () => {
   const [timerRunning, setTimerRunning] = useState(false);
   const [timer, setTimer] = useState(DEFAULT_WORK * 60);
   const [mode, setMode] = useState(WORK);
+
+  // make these 2 one object to avoid multiple updates in log
   const [workTimeNotify, setWorkTimeNotify] = useState(true);
   const [workTimeToLog, setWorkTimeToLog] = useState(0);
 

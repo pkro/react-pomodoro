@@ -29,13 +29,6 @@ export default function ActivityPanel({ workTimeNotify, workTimeToLog }) {
     setActivityText('');
   };
 
-  const logActivity = (name, timeSpent) => {
-    setLog({
-      runner: log.runner + 1,
-      activities: [...log.activities, { key: log.runner, name, timeSpent }],
-    });
-  };
-
   useEffect(() => {
     setActivities([
       {
@@ -64,7 +57,10 @@ export default function ActivityPanel({ workTimeNotify, workTimeToLog }) {
   }, [activities]);
 
   useEffect(() => {
-    logActivity(activity.name, workTimeToLog);
+    setLog({
+      runner: log.runner + 1,
+      activities: [...log.activities, { key: log.runner, name: activity.name, timeSpent: workTimeToLog }],
+    });
   }, [workTimeNotify, workTimeToLog]);
 
   return (
