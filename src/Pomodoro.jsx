@@ -123,7 +123,7 @@ const Pomodoro = () => {
 
       <ActivityControls logNotifier={logNotifier} />
 
-      <audio src="completed.wav" id="beep" preload="auto"></audio>
+      <audio src="completed.wav" id="beep" preload="none" />
     </div>
   );
 };
