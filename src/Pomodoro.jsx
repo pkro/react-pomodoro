@@ -54,7 +54,6 @@ const Pomodoro = () => {
         document.title = `${mode === WORK ? 'Work' : 'Pause'} ${seconds2display(timer)}`;
       } else if (mode === WORK) {
         const beep = document.getElementById('beep');
-        beep.src = 'pausecompleted.wav';
         playPromise = beep.play();
         setLogNotifier({ notification: !logNotifier.notification, timeSpent: workTime * 60 - timer });
         setTimer(pauseTime * 60);
@@ -62,7 +61,6 @@ const Pomodoro = () => {
         setMode(PAUSE);
       } else {
         const beep = document.getElementById('beep');
-        beep.src = 'completed.wav';
         playPromise = beep.play();
         setTimer(workTime * 60);
         setTimerRunning(true);
@@ -123,7 +121,7 @@ const Pomodoro = () => {
 
       <ActivityControls logNotifier={logNotifier} />
 
-      <audio src="completed.wav" id="beep" preload="none" />
+      <audio src="beep.mp3" id="beep" preload="none" />
     </div>
   );
 };
