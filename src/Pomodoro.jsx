@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import useInterval from 'use-interval';
 import TimeDisplay, { seconds2display } from './TimeDisplay';
 import MinuteSetter from './MinuteSetter';
@@ -14,7 +14,7 @@ const Pomodoro = () => {
   const [mode, setMode] = useState(WORK);
   const [logNotifier, setLogNotifier] = useState({ notification: true, timeSpent: 0 });
 
-  let playPromise;
+  let audio = useRef();
 
   const changeTime = e => {
     const id = e.target.getAttribute('id');
@@ -37,15 +37,11 @@ const Pomodoro = () => {
     setTimer(DEFAULT_WORK * 60);
     setTimerRunning(false);
     const beep = document.getElementById('beep');
-    if (playPromise !== undefined) {
-      playPromise.then(() => {
-        beep.pause();
-        beep.currentTime = 0;
-        beep.src = '';
-      });
+    if (audio.current !== null) {
+      beep.pause();
+      beep.currentTime = 0;
     }
-
-  };
+  }
 
   useInterval(
     () => {
@@ -57,14 +53,16 @@ const Pomodoro = () => {
         setTimer(pauseTime * 60);
         setTimerRunning(true);
         setMode(PAUSE);
-        const beep = document.getElementById('beep');
-        playPromise = beep.play();
+        if (audio.current !== null) {
+          audio.current.play()
+        }
       } else {
         setTimer(workTime * 60);
         setTimerRunning(true);
         setMode(WORK);
-        const beep = document.getElementById('beep');
-        playPromise = beep.play();
+        if (audio.current !== null) {
+          audio.current.play();
+        }
       }
     },
     timerRunning ? ONESECONDINMILISECONDS : null
@@ -121,7 +119,7 @@ const Pomodoro = () => {
 
       <ActivityControls logNotifier={logNotifier} />
 
-      <audio src="beep.mp3" id="beep" preload="none" />
+      <audio src="beep.mp3" ref={audio} id="beep" preload="none" />
     </div>
   );
 };
