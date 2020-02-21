@@ -53,18 +53,18 @@ const Pomodoro = () => {
         setTimer(timer - 1);
         document.title = `${mode === WORK ? 'Work' : 'Pause'} ${seconds2display(timer)}`;
       } else if (mode === WORK) {
-        const beep = document.getElementById('beep');
-        playPromise = beep.play();
         setLogNotifier({ notification: !logNotifier.notification, timeSpent: workTime * 60 - timer });
         setTimer(pauseTime * 60);
         setTimerRunning(true);
         setMode(PAUSE);
-      } else {
         const beep = document.getElementById('beep');
         playPromise = beep.play();
+      } else {
         setTimer(workTime * 60);
         setTimerRunning(true);
         setMode(WORK);
+        const beep = document.getElementById('beep');
+        playPromise = beep.play();
       }
     },
     timerRunning ? ONESECONDINMILISECONDS : null
