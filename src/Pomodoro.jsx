@@ -15,6 +15,7 @@ const Pomodoro = () => {
   const [logNotifier, setLogNotifier] = useState({ notification: true, timeSpent: 0 });
 
   let audio = useRef();
+  let timerLabel = useRef();
 
   const changeTime = e => {
     const id = e.target.getAttribute('id');
@@ -28,7 +29,7 @@ const Pomodoro = () => {
     if (newTime > 0 && newTime <= 60) {
       callFunc(newTime);
     }
-    setTimer(newTime * 60);
+    if (isWorkSession) setTimer(newTime * 60);
   };
 
   const resetTimer = () => {
@@ -36,6 +37,7 @@ const Pomodoro = () => {
     setPauseTime(DEFAULT_PAUSE);
     setTimer(DEFAULT_WORK * 60);
     setTimerRunning(false);
+    timerLabel.current.innerText = 'Press start';
     const beep = document.getElementById('beep');
     if (audio.current !== null) {
       beep.pause();
@@ -48,21 +50,25 @@ const Pomodoro = () => {
       if (timer > 0) {
         setTimer(timer - 1);
         document.title = `${mode === WORK ? 'Work' : 'Pause'} ${seconds2display(timer)}`;
+        timerLabel.current.innerText = mode === WORK ? 'Work' : 'Pause';
       } else if (mode === WORK) {
-        setLogNotifier({ notification: !logNotifier.notification, timeSpent: workTime * 60 - timer });
+        setLogNotifier({
+          notification: !logNotifier.notification,
+          timeSpent: workTime * 60 - timer,
+        });
         setTimer(pauseTime * 60);
-        setTimerRunning(true);
         setMode(PAUSE);
+        timerLabel.current.innerText = 'Pause';
         if (audio.current !== null) {
           audio.current.play()
         }
       } else {
         setTimer(workTime * 60);
-        setTimerRunning(true);
         setMode(WORK);
         if (audio.current !== null) {
           audio.current.play();
         }
+        timerLabel.current.innerText = 'Work';
       }
     },
     timerRunning ? ONESECONDINMILISECONDS : null
@@ -81,10 +87,10 @@ const Pomodoro = () => {
           </button>
       </div>
 
-      <h4 id="timer-label">
-        {mode === WORK && timerRunning && 'Working!'}
-        {mode === PAUSE && timerRunning && 'Break time'}
-        {!timerRunning && 'Press start'}
+      <h4 id="timer-label" ref={timerLabel}>Press start
+        {/*mode === WORK && timerRunning && 'Working!'*/}
+        {/*mode === PAUSE && timerRunning && 'Break time'*/}
+        {/*!timerRunning && 'Press start'*/}
       </h4>
       <div id="timerHolder">
         <TimeDisplay seconds={timer} id="time-left" />
