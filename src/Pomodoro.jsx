@@ -18,6 +18,10 @@ const Pomodoro = () => {
   let timerLabel = useRef();
 
   const changeTime = e => {
+    if (timerRunning) {
+      return;
+    }
+
     const id = e.target.getAttribute('id');
     const isWorkSession = id.indexOf('session') !== -1;
     const isIncrement = id.indexOf('increment') !== -1;
@@ -29,14 +33,14 @@ const Pomodoro = () => {
     if (newTime > 0 && newTime <= 60) {
       callFunc(newTime);
     }
-    //if (isWorkSession) setTimer(newTime * 60);
+    if (isWorkSession) setTimer(newTime * 60);
   };
 
   const resetTimer = () => {
+    setTimerRunning(false);
     setWorkTime(DEFAULT_WORK);
     setPauseTime(DEFAULT_PAUSE);
     setTimer(DEFAULT_WORK * 60);
-    setTimerRunning(false);
     timerLabel.current.innerText = 'Press start';
     const beep = document.getElementById('beep');
     if (audio.current !== null) {
@@ -50,7 +54,6 @@ const Pomodoro = () => {
       if (timer > 0) {
         setTimer(timer - 1);
         document.title = `${mode === WORK ? 'Work' : 'Pause'} ${seconds2display(timer)}`;
-        timerLabel.current.innerText = mode === WORK ? 'Work' : 'Pause';
       } else if (mode === WORK) {
         setTimer(pauseTime * 60);
         setMode(PAUSE);
