@@ -29,7 +29,7 @@ const Pomodoro = () => {
     if (newTime > 0 && newTime <= 60) {
       callFunc(newTime);
     }
-    if (isWorkSession) setTimer(newTime * 60);
+    //if (isWorkSession) setTimer(newTime * 60);
   };
 
   const resetTimer = () => {
@@ -52,16 +52,16 @@ const Pomodoro = () => {
         document.title = `${mode === WORK ? 'Work' : 'Pause'} ${seconds2display(timer)}`;
         timerLabel.current.innerText = mode === WORK ? 'Work' : 'Pause';
       } else if (mode === WORK) {
-        setLogNotifier({
-          notification: !logNotifier.notification,
-          timeSpent: workTime * 60 - timer,
-        });
         setTimer(pauseTime * 60);
         setMode(PAUSE);
         timerLabel.current.innerText = 'Pause';
         if (audio.current !== null) {
-          audio.current.play()
+          audio.current.play();
         }
+        setLogNotifier({
+          notification: !logNotifier.notification,
+          timeSpent: workTime * 60 - timer,
+        });
       } else {
         setTimer(workTime * 60);
         setMode(WORK);
@@ -87,11 +87,7 @@ const Pomodoro = () => {
           </button>
       </div>
 
-      <h4 id="timer-label" ref={timerLabel}>Press start
-        {/*mode === WORK && timerRunning && 'Working!'*/}
-        {/*mode === PAUSE && timerRunning && 'Break time'*/}
-        {/*!timerRunning && 'Press start'*/}
-      </h4>
+      <h4 id="timer-label" ref={timerLabel}>Press start</h4>
       <div id="timerHolder">
         <TimeDisplay seconds={timer} id="time-left" />
       </div>
