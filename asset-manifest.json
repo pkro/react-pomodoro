@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/react-pomodoro/static/css/main.e88e3fb5.chunk.css",
-    "main.js": "/react-pomodoro/static/js/main.048e8086.chunk.js",
-    "main.js.map": "/react-pomodoro/static/js/main.048e8086.chunk.js.map",
+    "main.css": "/react-pomodoro/static/css/main.d67bc726.chunk.css",
+    "main.js": "/react-pomodoro/static/js/main.0cfd805d.chunk.js",
+    "main.js.map": "/react-pomodoro/static/js/main.0cfd805d.chunk.js.map",
     "runtime-main.js": "/react-pomodoro/static/js/runtime-main.bf17695f.js",
     "runtime-main.js.map": "/react-pomodoro/static/js/runtime-main.bf17695f.js.map",
-    "static/js/2.77d9730f.chunk.js": "/react-pomodoro/static/js/2.77d9730f.chunk.js",
-    "static/js/2.77d9730f.chunk.js.map": "/react-pomodoro/static/js/2.77d9730f.chunk.js.map",
+    "static/js/2.73ea6aff.chunk.js": "/react-pomodoro/static/js/2.73ea6aff.chunk.js",
+    "static/js/2.73ea6aff.chunk.js.map": "/react-pomodoro/static/js/2.73ea6aff.chunk.js.map",
     "index.html": "/react-pomodoro/index.html",
-    "precache-manifest.1e9743e3935fdff3f4caceb9ac6fef36.js": "/react-pomodoro/precache-manifest.1e9743e3935fdff3f4caceb9ac6fef36.js",
+    "precache-manifest.0c40ebf9c4eaec8717af79a7113852cb.js": "/react-pomodoro/precache-manifest.0c40ebf9c4eaec8717af79a7113852cb.js",
     "service-worker.js": "/react-pomodoro/service-worker.js",
-    "static/css/main.e88e3fb5.chunk.css.map": "/react-pomodoro/static/css/main.e88e3fb5.chunk.css.map",
-    "static/js/2.77d9730f.chunk.js.LICENSE": "/react-pomodoro/static/js/2.77d9730f.chunk.js.LICENSE"
+    "static/css/main.d67bc726.chunk.css.map": "/react-pomodoro/static/css/main.d67bc726.chunk.css.map",
+    "static/js/2.73ea6aff.chunk.js.LICENSE": "/react-pomodoro/static/js/2.73ea6aff.chunk.js.LICENSE"
   },
   "entrypoints": [
     "static/js/runtime-main.bf17695f.js",
-    "static/js/2.77d9730f.chunk.js",
-    "static/css/main.e88e3fb5.chunk.css",
-    "static/js/main.048e8086.chunk.js"
+    "static/js/2.73ea6aff.chunk.js",
+    "static/css/main.d67bc726.chunk.css",
+    "static/js/main.0cfd805d.chunk.js"
   ]
 }
