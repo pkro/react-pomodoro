@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ActivityLog from './ActivityLog';
-
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 export default function ActivityPanel({ logNotifier }) {
   const [log, setLog] = useState({ runner: 1, activities: [] });
   const [activities, setActivities] = useState([]);
@@ -19,7 +23,7 @@ export default function ActivityPanel({ logNotifier }) {
 
   const handleChange = e => {
     setActivityText(e.target.value);
-  }
+  };
 
   const addActivity = () => {
     if (activities.find(e => e.name === activityText) === undefined && activityText.length > 0) {
@@ -57,6 +61,7 @@ export default function ActivityPanel({ logNotifier }) {
   }, [activities]);
 
   useEffect(() => {
+    if (logNotifier.timeSpent === 0) return;
     setLog({
       runner: log.runner + 1,
       activities: [
@@ -68,24 +73,24 @@ export default function ActivityPanel({ logNotifier }) {
 
   return (
     <div id="activityPanel">
-      <div id="activityControls">
-        <div className="custom-select">
-          <select onChange={changeCurrentActivity}>
-            {activities.map(obj => (
-              <option value={obj.id} key={obj.id}>
-                {obj.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="addActivity">
-          <input type="text" id="newActivity" value={activityText} onChange={handleChange} />
-          <button type="button" onClick={addActivity}>Add</button>
-        </div>
-      </div>
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        component={Paper}
+        style={{ paddingBottom: '10px' }}
+      >
+        <Select native onChange={changeCurrentActivity} style={{ marginRight: '30px' }}>
+          {activities.map(obj => (
+            <option value={obj.id} key={obj.id}>
+              {obj.name}
+            </option>
+          ))}
+        </Select>
+        <TextField id="newActivity" value={activityText} onChange={handleChange} />
+        <Button onClick={addActivity}>Add</Button>
+      </Grid>
       <ActivityLog log={log} />
     </div>
-
   );
 }
