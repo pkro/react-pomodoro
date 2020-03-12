@@ -1,3 +1,4 @@
+import { dispatch } from 'react-redux';
 export const LOG_SESSION = 'LOG_SESSION';
 
 // action creator(s)
@@ -8,6 +9,10 @@ export function addSession(id, timeSpent) {
   };
 }
 
+// automatically dispatch
+export const boundAddSession = (id, timeSpent) => dispatch(addSession(id, timeSpent));
+
+// very simple state shape
 const initialState = {
   log: [],
 };
